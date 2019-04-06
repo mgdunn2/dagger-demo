@@ -1,10 +1,13 @@
-package elastic.index;
+package elastic.twitterstream;
 
 import twitter4j.conf.ConfigurationBuilder;
 
+import javax.inject.Inject;
 import java.util.function.Supplier;
 
 public class ConfigurationSupplier implements Supplier<ConfigurationBuilder> {
+    @Inject public ConfigurationSupplier() { }
+
     @Override
     public ConfigurationBuilder get() {
         return new ConfigurationBuilder()

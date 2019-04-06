@@ -3,24 +3,27 @@
  */
 package elastic.demo;
 
-import elastic.search.Searcher;
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
+import dagger.BindsInstance;
+import dagger.Component;
+import elastic.domain.Tweet;
+import elastic.elastic.ElasticModule;
+import elastic.services.Searcher;
+import elastic.util.Closer;
+import elastic.util.GsonModule;
+import elastic.util.RequestScope;
 
-import java.io.IOException;
-import java.util.List;
+import javax.inject.Inject;
 
 public class Search {
-    public List<String> performSearch(String query) {
-        RestClientBuilder restBuilder =
-            RestClient.builder(new HttpHost("localhost", 9200));
-        try (RestHighLevelClient client = new RestHighLevelClient(restBuilder)) {
-            return new Searcher(client).search(query);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+    private final Searcher<Tweet> searcher;
+
+    @Inject
+    public Search(Searcher<Tweet> searcher) {
+        this.searcher = searcher;
+    }
+
+    private void run(String input) {
+        searcher.search(input).forEach(System.out::println);
     }
 
     public static void main(String[] args) {
@@ -28,7 +31,28 @@ public class Search {
         if (args.length == 1) {
             query = args[0];
         }
-        Search search = new Search();
-        search.performSearch(query).forEach(System.out::println);
+        try (Closer closer = new Closer()) {
+            DaggerSearch_App.builder()
+                .closer(closer)
+                .build()
+                .search()
+                .run(query);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @RequestScope
+    @Component(modules = {
+        ElasticModule.class,
+    })
+    interface App {
+        Search search();
+
+        @Component.Builder
+        interface Builder {
+            @BindsInstance Builder closer(Closer closer);
+            App build();
+        }
     }
 }

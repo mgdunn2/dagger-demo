@@ -3,12 +3,20 @@
  */
 package elastic.demo;
 
-import elastic.index.ConfigurationSupplier;
-import elastic.index.TweetStreamer;
+import dagger.BindsInstance;
+import dagger.Component;
+import elastic.twitterstream.TweetStreamer;
+import elastic.twitterstream.TweetStreamer.RequestModule;
+import elastic.util.GsonModule;
+import elastic.util.TweetFilter;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 public class Index {
     private final TweetStreamer tweetStreamer;
 
+    @Inject
     public Index(TweetStreamer tweetStreamer){
         this.tweetStreamer = tweetStreamer;
     }
@@ -22,9 +30,26 @@ public class Index {
         if (args.length == 1) {
             tweetFilter = args[0];
         }
-        TweetStreamer tweetStreamer =
-            new TweetStreamer(new ConfigurationSupplier().get(), tweetFilter);
-        Index index = new Index(tweetStreamer);
-        index.start();
+
+        DaggerIndex_App.builder()
+            .tweetFilter(tweetFilter)
+            .build()
+            .index()
+            .start();
+    }
+
+    @Singleton
+    @Component(modules = {
+        RequestModule.class,
+    })
+    interface App {
+        Index index();
+
+        @Component.Builder
+        interface Builder {
+            @BindsInstance
+            Builder tweetFilter(@TweetFilter String tweetFilter);
+            App build();
+        }
     }
 }

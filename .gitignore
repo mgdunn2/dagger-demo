@@ -2,4 +2,13 @@
 .gradle
 
 # Ignore Gradle build output directory
-build
+build/
+
+bazel-bin
+bazel-elastic-demo
+bazel-genfiles
+bazel-out
+bazel-testlogs
+
+elastic-demo.ipr
+elastic-demo.iws

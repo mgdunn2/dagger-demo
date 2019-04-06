@@ -1,5 +1,8 @@
-package elastic.search;
+package elastic.elastic;
 
+import com.google.gson.Gson;
+import elastic.domain.Tweet;
+import elastic.services.Searcher;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -7,21 +10,25 @@ import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
-public class Searcher {
+public class ElasticTweetSearcher implements Searcher<Tweet> {
     private final RestHighLevelClient client;
+    private final Gson gson;
 
-    public Searcher(RestHighLevelClient client) {
+    @Inject
+    public ElasticTweetSearcher(RestHighLevelClient client, Gson gson) {
         this.client = client;
+        this.gson = gson;
     }
 
-    public List<String> search(String query) {
+    @Override
+    public List<Tweet> search(String query) {
         SearchSourceBuilder source = new SearchSourceBuilder()
             .query(new MatchQueryBuilder("message", query));
 
@@ -40,18 +47,13 @@ public class Searcher {
         return parseResponse(response);
     }
 
-    private List<String> parseResponse(SearchResponse response) {
+    private List<Tweet> parseResponse(SearchResponse response) {
         return Stream.of(response.getHits().getHits())
             .map(this::parseHit)
-            .collect(toList());
+            .collect(toImmutableList());
     }
 
-    private String parseHit(SearchHit hit) {
-        Map<String, Object> source = hit.getSourceAsMap();
-        return String.format("%s %s: %s\n%s",
-            source.get("date"),
-            source.get("author"),
-            source.get("message"),
-            source.get("sentiment"));
+    private Tweet parseHit(SearchHit hit) {
+        return gson.fromJson(hit.getSourceAsString(), Tweet.class);
     }
 }
