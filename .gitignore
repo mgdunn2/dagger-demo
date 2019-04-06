@@ -4,11 +4,12 @@
 # Ignore Gradle build output directory
 build/
 
+out
+
 bazel-bin
 bazel-elastic-demo
 bazel-genfiles
 bazel-out
 bazel-testlogs
 
-elastic-demo.ipr
-elastic-demo.iws
+bazel-testlogs
