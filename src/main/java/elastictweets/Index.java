@@ -5,15 +5,16 @@ package elastictweets;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import elastictweets.twitterstream.TweetStreamer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 public class Index {
-    private final elastictweets.twitterstream.TweetStreamer tweetStreamer;
+    private final TweetStreamer tweetStreamer;
 
     @Inject
-    public Index(elastictweets.twitterstream.TweetStreamer tweetStreamer){
+    public Index(TweetStreamer tweetStreamer){
         this.tweetStreamer = tweetStreamer;
     }
 
