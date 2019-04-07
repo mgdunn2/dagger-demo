@@ -4,7 +4,7 @@ java_library(
     name = "util",
     srcs = glob(["*.java"]),
     deps = [
-        "//src/main/java/elastic/domain",
+        "//src/main/java/elastictweets/domain:domain",
         "//thirdparty:dagger",
         "//thirdparty:elasticsearch",
         "//thirdparty:gson",

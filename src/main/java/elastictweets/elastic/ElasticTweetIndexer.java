@@ -1,8 +1,8 @@
-package elastic.elastic;
+package elastictweets.elastic;
 
 import com.google.gson.Gson;
-import elastic.domain.Tweet;
-import elastic.services.Indexer;
+import elastictweets.domain.Tweet;
+import elastictweets.services.Indexer;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;

@@ -1,4 +1,4 @@
-package elastic.services;
+package elastictweets.services;
 
 import java.util.List;
 

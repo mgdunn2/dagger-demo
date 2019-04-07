@@ -1,4 +1,4 @@
-package elastic.twitterstream;
+package elastictweets.twitterstream;
 
 import twitter4j.conf.ConfigurationBuilder;
 

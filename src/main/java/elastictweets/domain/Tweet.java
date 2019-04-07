@@ -1,4 +1,4 @@
-package elastic.domain;
+package elastictweets.domain;
 
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;

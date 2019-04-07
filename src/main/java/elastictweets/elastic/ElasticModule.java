@@ -1,14 +1,14 @@
-package elastic.elastic;
+package elastictweets.elastic;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import elastic.domain.Tweet;
-import elastic.services.Indexer;
-import elastic.services.Searcher;
-import elastic.util.Closer;
-import elastic.util.GsonModule;
-import elastic.util.RequestScope;
+import elastictweets.domain.Tweet;
+import elastictweets.services.Indexer;
+import elastictweets.services.Searcher;
+import elastictweets.util.Closer;
+import elastictweets.util.GsonModule;
+import elastictweets.util.RequestScope;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;

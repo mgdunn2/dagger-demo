@@ -1,4 +1,4 @@
-package elastic.util;
+package elastictweets.util;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

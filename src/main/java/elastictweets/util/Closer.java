@@ -1,4 +1,4 @@
-package elastic.util;
+package elastictweets.util;
 
 import javax.inject.Inject;
 import java.util.HashSet;

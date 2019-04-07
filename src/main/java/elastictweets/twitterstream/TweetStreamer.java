@@ -1,15 +1,14 @@
-package elastic.twitterstream;
+package elastictweets.twitterstream;
 
 import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Subcomponent;
-import elastic.domain.ImmutableTweet;
-import elastic.domain.Tweet;
-import elastic.elastic.ElasticModule;
-import elastic.services.Indexer;
-import elastic.util.Closer;
-import elastic.util.RequestScope;
-import elastic.util.TweetFilter;
+import elastictweets.domain.ImmutableTweet;
+import elastictweets.domain.Tweet;
+import elastictweets.elastic.ElasticModule;
+import elastictweets.services.Indexer;
+import elastictweets.util.Closer;
+import elastictweets.util.RequestScope;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -23,14 +22,14 @@ import javax.inject.Singleton;
 
 @Singleton
 public class TweetStreamer {
-    private final ConfigurationSupplier configurationSupplier;
+    private final elastictweets.twitterstream.ConfigurationSupplier configurationSupplier;
     private final String filter;
     private final Provider<Request.Builder> requestProvider;
 
     @Inject
     public TweetStreamer(
-        ConfigurationSupplier configurationSupplier,
-        @TweetFilter String filter,
+        elastictweets.twitterstream.ConfigurationSupplier configurationSupplier,
+        @elastictweets.util.TweetFilter String filter,
         Provider<Request.Builder> requestProvider)
     {
         this.configurationSupplier = configurationSupplier;
