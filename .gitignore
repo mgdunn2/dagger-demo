@@ -13,3 +13,5 @@ bazel-out
 bazel-testlogs
 
 bazel-testlogs
+
+elastic-demo.i*
