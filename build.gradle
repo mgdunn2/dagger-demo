@@ -16,7 +16,6 @@ plugins {
     id 'idea'
 
     id "net.ltgt.apt" version "0.10"
-    id "net.ltgt.apt-idea"
 }
 
 repositories {
