@@ -12,7 +12,11 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
+    // Apply the idea plugin to integrate with intellij
     id 'idea'
+
+    id "net.ltgt.apt" version "0.10"
+    id "net.ltgt.apt-idea"
 }
 
 repositories {
@@ -22,15 +26,21 @@ repositories {
 }
 
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.guava:guava:27.0.1-jre'
     implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.3'
     implementation 'org.twitter4j:twitter4j-stream:4.0.7'
-    implementation 'edu.stanford.nlp:stanford-corenlp:3.9.2'
+
+    compile "com.google.dagger:dagger:2.22" 
+    annotationProcessor "com.google.dagger:dagger-compiler:2.22" 
+
+    compileOnly "org.immutables:value-annotations:2.7.5" 
+    annotationProcessor "org.immutables:value:2.7.5" 
+    implementation 'org.immutables:gson:2.7.5'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
 
 // Define the main class for the application
-mainClassName = 'elastic.demo.Search'
+mainClassName = 'elastictweets.Search'
